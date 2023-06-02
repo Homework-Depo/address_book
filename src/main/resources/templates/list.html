@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <style>
+        .centerthis {
+            display: block;
+            width: 200px;
+        }
+    </style>
+    <title>Contactos</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="centerthis pt-3 pb-3 mx-auto">CONTACTOS</h1>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-sm-2 g-4 mb-5">
+        <div class="col" onclick="location.href='/contacts/create';" style="cursor: pointer;">
+            <div class="card text-bg-success h-100">
+                <img src="https://jacontactsprofilepictures.s3.amazonaws.com/plus.png" class="card-img-top px-4 py-4" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Nuevo Contacto</h5>
+                    <p class="card-text">Crear un nuevo contacto.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col" th:each="contact : ${contacts}">
+            <div class="card h-100">
+                <img th:src="@{https://jacontactsprofilepictures.s3.amazonaws.com/{pic}(pic=${contact.profilePicture})}"
+                     class="card-img-top img-fluid" alt="..." src="">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="|${contact.firstName} ${contact.lastName}|"></h5>
+                    <div class="card-text">
+                        <ul>
+                            <li th:text="${contact.email}"></li>
+                            <li th:text="${contact.phoneNumber}"></li>
+                            <li th:text="${contact.address}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <a th:href="|${#httpServletRequest.requestURI}${contact.id}|" href="#" class="btn btn-warning">Editar</a>
+                        </div>
+                        <div class="col">
+                            <a th:href="|${#httpServletRequest.requestURI}${contact.id}/delete|" href="#" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
